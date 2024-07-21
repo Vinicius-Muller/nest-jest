@@ -12,14 +12,19 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
+  parseDate(date) {
+    const [day, month, year] = date.split('/');
+    return year + '-' + month + '-' + day;
+  }
+
   async create(createUserDto: CreateUserDto) {
     try {
       const user = this.usersRepository.create({
         ...createUserDto,
         first_name: createUserDto.firstName,
         sir_name: createUserDto.sirName,
-        date_initial: createUserDto.dateInitial,
-        date_end: createUserDto.dateEnd,
+        date_initial: new Date(this.parseDate(createUserDto.dateInitial)),
+        date_end: new Date(this.parseDate(createUserDto.dateEnd)),
       });
 
       return await this.usersRepository.save(user);

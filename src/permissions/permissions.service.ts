@@ -11,7 +11,7 @@ export class PermissionsService {
   ) {}
   async findAll() {
     try {
-      await this.permissionsRepository.find();
+      return await this.permissionsRepository.find();
     } catch (error) {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }

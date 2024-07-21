@@ -17,8 +17,8 @@ export class CreateUserDto {
   permissions: string[];
 
   @IsNotEmpty()
-  dateInitial: Date;
+  dateInitial: string;
 
   @IsNotEmpty()
-  dateEnd: Date;
+  dateEnd: string;
 }
