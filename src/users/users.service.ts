@@ -46,7 +46,7 @@ export class UsersService {
 
   async findAll() {
     try {
-      return await this.usersRepository.find();
+      return await this.usersRepository.find({ relations: ['permissions'] });
     } catch (error) {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
@@ -54,7 +54,10 @@ export class UsersService {
 
   async findOne(id: string) {
     try {
-      return await this.usersRepository.findOne({ where: { id: id } });
+      return await this.usersRepository.findOne({
+        where: { id: id },
+        relations: ['permissions'],
+      });
     } catch (error) {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
