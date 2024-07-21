@@ -9,7 +9,7 @@ export class ForeignUpdate1721578520386 implements MigrationInterface {
 				
 				ALTER TABLE permissions
 				ADD COLUMN user_id UUID,
-				ADD CONSTRAINT user_foreign_fk FOREIGNN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE;
+				ADD CONSTRAINT user_foreign_fk FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE;
 			`);
   }
 
