@@ -18,7 +18,7 @@ export class User {
   email: string;
 
   @Column({ type: 'varchar', length: 60, nullable: false })
-  permissions: string[];
+  permissions_user: string[];
 
   @Column({ type: 'date', nullable: false })
   date_initial: Date;

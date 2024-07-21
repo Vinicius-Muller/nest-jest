@@ -14,7 +14,7 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty()
-  permissions: string[];
+  permissions_user: string[];
 
   @IsNotEmpty()
   dateInitial: string;
