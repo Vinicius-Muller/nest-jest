@@ -3,13 +3,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
+import { Permission } from 'src/permissions/entities/permission.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+
+    @InjectRepository(Permission)
+    private permissionsRepository: Repository<Permission>,
   ) {}
 
   parseDate(date) {
@@ -19,12 +23,19 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
+      const permissionsMatched = await this.permissionsRepository.find({
+        where: {
+          id: In(createUserDto.permissions),
+        },
+      });
+
       const user = this.usersRepository.create({
         ...createUserDto,
         first_name: createUserDto.firstName,
         sir_name: createUserDto.sirName,
         date_initial: new Date(this.parseDate(createUserDto.dateInitial)),
         date_end: new Date(this.parseDate(createUserDto.dateEnd)),
+        permissions: permissionsMatched,
       });
 
       return await this.usersRepository.save(user);
@@ -53,7 +64,22 @@ export class UsersService {
     try {
       await this.usersRepository.findOneByOrFail({ id: id });
 
-      return await this.usersRepository.update(id, updateUserDto);
+      const permissionsMatched = await this.permissionsRepository.find({
+        where: {
+          id: In(updateUserDto.permissions),
+        },
+      });
+
+      const user = this.usersRepository.create({
+        ...updateUserDto,
+        first_name: updateUserDto.firstName,
+        sir_name: updateUserDto.sirName,
+        date_initial: new Date(this.parseDate(updateUserDto.dateInitial)),
+        date_end: new Date(this.parseDate(updateUserDto.dateEnd)),
+        permissions: permissionsMatched,
+      });
+
+      return await this.usersRepository.update(id, user);
     } catch (error) {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
