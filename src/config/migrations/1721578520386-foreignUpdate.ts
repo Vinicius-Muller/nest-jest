@@ -5,7 +5,7 @@ export class ForeignUpdate1721578520386 implements MigrationInterface {
     await queryRunner.query(`
 				ALTER TABLE users
 				ADD COLUMN permission_id UUID,
-				ADD CONSTRAINT permission_foreign_fk FOREIGN KEY(permission_id) REFENRECES permissions(id);
+				ADD CONSTRAINT permission_foreign_fk FOREIGN KEY(permission_id) REFERENCES permissions(id);
 				
 				ALTER TABLE permissions
 				ADD COLUMN user_id UUID,
