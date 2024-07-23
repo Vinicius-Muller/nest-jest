@@ -43,8 +43,8 @@ describe('UsersController', () => {
             findAll: jest.fn().mockResolvedValue(userList),
             findOne: jest.fn().mockResolvedValue(userList[0]),
             create: jest.fn().mockResolvedValue(userList[0]),
-            update: jest.fn(),
-            delete: jest.fn(),
+            update: jest.fn().mockResolvedValue(userList[0]),
+            remove: jest.fn().mockResolvedValue(undefined),
           },
         },
       ],
@@ -99,10 +99,41 @@ describe('UsersController', () => {
       expect(service.findOne).toHaveBeenCalledWith('id');
     });
 
-    it('should return an error', async () => {
+    it('should throw an error', async () => {
       jest.spyOn(service, 'findOne').mockRejectedValueOnce(new Error());
 
       expect(service.findOne).rejects.toThrow(new Error());
+    });
+  });
+
+  describe('update', () => {
+    it('should update a user and return its value', async () => {
+      const updatedUser = await controller.update('id', userMock);
+
+      expect(updatedUser).toEqual(userList[0]);
+      expect(service.update).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw an error when trying to update a user', async () => {
+      jest.spyOn(service, 'update').mockRejectedValueOnce(new Error());
+
+      expect(service.update).rejects.toThrow(new Error());
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete a users', async () => {
+      const result = await controller.remove('id');
+
+      expect(result).toEqual(undefined);
+      expect(service.remove).toHaveBeenCalledTimes(1);
+      expect(service.remove).toHaveBeenCalledWith('id');
+    });
+
+    it('should throw an error when deleting user', async () => {
+      jest.spyOn(service, 'remove').mockRejectedValueOnce(new Error());
+
+      expect(service.remove).rejects.toThrow(new Error());
     });
   });
 });
