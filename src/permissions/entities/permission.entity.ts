@@ -25,7 +25,7 @@ export class Permission {
   user: User;
 
   constructor(permission?: Partial<Permission>) {
-    this.name = permission.name;
-    this.user = permission.user;
+    this.name = permission?.name;
+    this.user = permission?.user;
   }
 }
