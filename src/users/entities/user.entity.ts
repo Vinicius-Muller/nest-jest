@@ -35,4 +35,13 @@ export class User {
     foreignKeyConstraintName: 'permission_foreign_fk',
   })
   permissions: Permission[];
+
+  constructor(user?: Partial<User>) {
+    this.first_name = user.first_name;
+    this.sir_name = user.sir_name;
+    this.email = user.email;
+    this.permissions = user.permissions;
+    this.date_initial = user.date_initial;
+    this.date_end = user.date_end;
+  }
 }

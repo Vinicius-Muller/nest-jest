@@ -23,4 +23,9 @@ export class Permission {
     foreignKeyConstraintName: 'user_foreign_fk',
   })
   user: User;
+
+  constructor(permission?: Partial<Permission>) {
+    this.name = permission.name;
+    this.user = permission.user;
+  }
 }
