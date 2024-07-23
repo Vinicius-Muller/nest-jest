@@ -22,6 +22,7 @@ const userList: User[] = [
     permissions: [
       new Permission({
         name: 'service',
+        user: null,
       }),
     ],
     date_initial: new Date(),
